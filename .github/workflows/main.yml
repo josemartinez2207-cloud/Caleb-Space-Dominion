@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: Caleb-Space-Dominion-GitHub-Android
@@ -33,6 +32,18 @@ jobs:
 
       - name: Crear proyecto Android
         run: npx cap add android
+
+      - name: Colocar logo como icono
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher*.xml
+          for item in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            density="${item%%:*}"
+            size="${item##*:}"
+            convert Logo-Caleb-Space-Dominion.png -resize "${size}x${size}" "android/app/src/main/res/mipmap-${density}/ic_launcher.png"
+            cp "android/app/src/main/res/mipmap-${density}/ic_launcher.png" "android/app/src/main/res/mipmap-${density}/ic_launcher_round.png"
+          done
 
       - name: Compilar APK
         run: cd android && chmod +x gradlew && ./gradlew assembleDebug
