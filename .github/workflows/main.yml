@@ -38,10 +38,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y imagemagick
           rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher*.xml
+          LOGO_PATH="$(find .. -type f -name 'Logo-Caleb-Space-Dominion.png' | head -n 1)"
+          test -n "$LOGO_PATH" || { echo "No se encontró el logo"; exit 1; }
           for item in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
             density="${item%%:*}"
             size="${item##*:}"
-            convert Logo-Caleb-Space-Dominion.png -resize "${size}x${size}" "android/app/src/main/res/mipmap-${density}/ic_launcher.png"
+            convert "$LOGO_PATH" -resize "${size}x${size}" "android/app/src/main/res/mipmap-${density}/ic_launcher.png"
             cp "android/app/src/main/res/mipmap-${density}/ic_launcher.png" "android/app/src/main/res/mipmap-${density}/ic_launcher_round.png"
           done
 
