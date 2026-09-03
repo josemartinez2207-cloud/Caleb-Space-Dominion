@@ -2,11 +2,6 @@
   "appId": "com.caleb.spacedominion",
   "appName": "Caleb Space Dominion",
   "webDir": "www",
-  "server": {
-    "url": "https://caleb-space-dominion.jose-martinez2207.chatgpt.site",
-    "cleartext": false,
-    "allowNavigation": ["caleb-space-dominion.jose-martinez2207.chatgpt.site"]
-  },
   "android": {
     "allowMixedContent": false
   }
