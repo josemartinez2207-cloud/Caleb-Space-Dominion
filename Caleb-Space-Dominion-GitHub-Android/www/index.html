@@ -1,2 +1,847 @@
 <!doctype html>
-<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Caleb Space Dominion</title></head><body style="margin:0;background:#02030b;color:white;font-family:Arial;display:grid;place-items:center;min-height:100vh"><p>Cargando Caleb: Space Dominion…</p></body></html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Caleb: Space Dominion</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  margin:0;background:#02030b;color:#eaf6ff;
+  font-family:"Segoe UI",Roboto,system-ui,Arial,sans-serif;
+  overflow:hidden;user-select:none;-webkit-user-select:none;
+  display:flex;justify-content:center;
+}
+.shell{
+  width:100%;max-width:430px;height:100dvh;
+  display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top) + 8px) 12px calc(env(safe-area-inset-bottom) + 6px);
+}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex:0 0 auto}
+.eyebrow{
+  display:block;font-size:10px;letter-spacing:.18em;color:#5df5ff;
+  font-weight:700;margin-bottom:3px;
+}
+header h1{
+  margin:0;font-size:19px;font-weight:800;letter-spacing:.05em;line-height:1.1;
+}
+header h1 i{font-style:italic;color:#ffc861;font-weight:700}
+.pilot{text-align:right;line-height:1.15;flex:0 0 auto}
+.pilot span{display:block;font-size:8px;letter-spacing:.2em;color:#7c8ba8}
+.pilot b{font-size:13px;letter-spacing:.08em;color:#ffc861}
+
+.hud{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 8px;flex:0 0 auto;
+}
+.hud>div{
+  background:rgba(93,245,255,.06);border:1px solid rgba(93,245,255,.22);
+  border-radius:7px;padding:5px 8px;
+}
+.hud small{display:block;font-size:8px;letter-spacing:.16em;color:#7c8ba8}
+.hud strong{
+  display:block;font-size:15px;font-weight:700;color:#eaf6ff;
+  font-family:"Courier New",monospace;letter-spacing:.04em;
+}
+
+.arena{
+  position:relative;flex:1 1 auto;min-height:0;
+  border:1px solid rgba(93,245,255,.24);border-radius:12px;overflow:hidden;
+  background:#02030b;
+}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+
+.boss{
+  position:absolute;left:12px;right:12px;top:10px;z-index:3;pointer-events:none;
+  opacity:0;transition:opacity .25s;
+}
+.boss.on{opacity:1}
+.boss span{
+  display:block;font-size:9px;letter-spacing:.2em;color:#ff6f9d;
+  margin-bottom:3px;text-shadow:0 0 8px rgba(255,60,120,.6);
+}
+.boss .bar{height:6px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden}
+.boss .bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff2d6f,#ffc861);transition:width .12s}
+
+.subt{
+  position:absolute;left:14px;right:14px;bottom:14px;z-index:3;pointer-events:none;
+  background:rgba(2,8,20,.86);border-left:3px solid #5df5ff;border-radius:5px;
+  padding:8px 11px;font-size:12.5px;line-height:1.35;color:#d6f4ff;
+  opacity:0;transform:translateY(8px);transition:opacity .22s,transform .22s;
+}
+.subt.on{opacity:1;transform:none}
+
+.overlay{
+  position:absolute;inset:0;z-index:4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:11px;padding:26px 22px;text-align:center;
+  background:radial-gradient(circle at 50% 38%,rgba(12,22,58,.94),rgba(2,3,11,.98));
+}
+.overlay.hide{display:none}
+.crest{
+  width:52px;height:52px;border-radius:50%;
+  border:2px solid #5df5ff;display:grid;place-items:center;
+  font-size:25px;font-weight:800;color:#5df5ff;
+  box-shadow:0 0 22px rgba(93,245,255,.35);
+}
+.overlay h2{margin:0;font-size:20px;letter-spacing:.05em;font-weight:800}
+.overlay p{margin:0;font-size:13px;line-height:1.5;color:#a9bcd6;max-width:34ch}
+.overlay button{
+  margin-top:4px;padding:12px 26px;border:0;border-radius:8px;
+  background:linear-gradient(135deg,#5df5ff,#2f9bff);color:#00121f;
+  font-size:13.5px;font-weight:800;letter-spacing:.09em;cursor:pointer;
+  font-family:inherit;
+}
+.overlay button:active{transform:scale(.97)}
+.overlay button:focus-visible{outline:3px solid #ffc861;outline-offset:2px}
+
+.tip{font-size:11px;color:#6d7f9c;line-height:1.45;max-width:32ch}
+
+footer{
+  flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;
+  gap:8px;padding-top:7px;font-size:10px;color:#6d7f9c;
+}
+#voz{
+  flex:0 0 auto;background:transparent;border:1px solid rgba(93,245,255,.3);
+  color:#5df5ff;border-radius:6px;padding:5px 10px;font-size:10px;
+  letter-spacing:.1em;font-family:inherit;cursor:pointer;
+}
+#voz.off{color:#6d7f9c;border-color:rgba(120,140,170,.3)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header>
+    <div>
+      <span class="eyebrow" id="mision">MISIÓN 01 · ÓRBITA CERO</span>
+      <h1>CALEB <i>SPACE DOMINION</i></h1>
+    </div>
+    <div class="pilot"><span>COMANDANTE</span><b>CALEB</b></div>
+  </header>
+
+  <section class="hud">
+    <div><small>PUNTOS</small><strong id="hPuntos">000000</strong></div>
+    <div><small>VIDAS</small><strong id="hVidas">◆ ◆ ◆</strong></div>
+    <div><small>NIVEL</small><strong id="hNivel">1 / 12</strong></div>
+  </section>
+
+  <div class="arena">
+    <canvas id="cv"></canvas>
+    <div class="boss" id="bossBar"><span id="bossNom">VARKON PRIME</span><div class="bar"><i id="bossFill"></i></div></div>
+    <div class="subt" id="subt"></div>
+    <div class="overlay" id="overlay">
+      <span class="crest">C</span>
+      <h2 id="ovTitulo">EL DOMINIO TE NECESITA</h2>
+      <p id="ovTexto">Pilota la Invictus, destruye la Legión Eclipse y derrota a Varkon Prime.</p>
+      <button id="ovBoton">INICIAR MISIÓN</button>
+      <p class="tip" id="ovTip"></p>
+    </div>
+  </div>
+
+  <footer>
+    <span>🕹️ Mueve con el dedo o usa WASD / flechas · Disparo automático</span>
+    <button id="voz" aria-pressed="true">VOZ ON</button>
+  </footer>
+</main>
+
+<script>
+"use strict";
+
+/* ============================================================
+   CALEB: SPACE DOMINION — 12 misiones
+   Un solo archivo, sin dependencias. Funciona con file:// y
+   dentro del WebView de Android (Capacitor).
+   ============================================================ */
+
+var W = 390, H = 650;               // coordenadas lógicas del juego
+var MAX_NIVEL = 12;
+
+var MISIONES = [
+  "ÓRBITA CERO","CINTURÓN DE HIERRO","NEBULOSA ESPEJO","GUARIDA DE VARKON",
+  "ANILLO DE CENIZA","PUERTO FANTASMA","CAMPO DE ESCOMBROS","FORJA ECLIPSE",
+  "POZO GRAVITACIONAL","LUNA QUEBRADA","FRENTE DOBLE","TRONO DE VARKON PRIME"
+];
+
+/* ---------- Curva de dificultad ----------
+   Los Math.min / Math.max son topes: sin ellos el nivel 12
+   sería matemáticamente imposible de esquivar.               */
+function configNivel(n){
+  return {
+    nivel:            n,
+    nombre:           MISIONES[n-1] || "SECTOR DESCONOCIDO",
+    enemigosTotal:    6 + n * 3,
+    porTanda:         Math.min(2 + Math.floor(n/2), 6),
+    velEnemigo:       Math.min(0.70 + n * 0.11, 2.4),
+    vidaEnemigo:      1 + Math.floor((n-1)/3),
+    spawnCada:        Math.max(95, 210 - n * 9),
+    cadenciaEnemiga:  Math.max(72, 170 - n * 8),
+    velBalaEnemiga:   Math.min(2.2 + n * 0.14, 4.8),
+    // mecánicas nuevas, para que no sea solo subir números
+    disparan:         n >= 2,
+    zigzag:           n >= 3,
+    asteroides:       n >= 7,
+    divisores:        n >= 9,
+    frenteDoble:      n >= 11,
+    tripleDisparo:    n >= 6,
+    jefe:             n % 4 === 0,
+    jefeVida:         n === 4 ? 60 : n === 8 ? 115 : 190
+  };
+}
+
+/* ---------- Estado global ---------- */
+var estado = "menu";                 // menu | jugando | superado | ganado | perdido
+var nivel = 1, puntos = 0, vidas = 3, record = 0;
+var g = null, rafId = 0, ultimo = 0;
+var teclas = {}, dedo = {x:0,y:0,on:false};
+
+var cv = document.getElementById("cv");
+var ctx = cv.getContext("2d");
+var $ = function(id){ return document.getElementById(id); };
+
+/* ---------- Récord (protegido: file:// puede bloquear localStorage) ---------- */
+try { record = parseInt(localStorage.getItem("caleb_record") || "0", 10) || 0; } catch(e){ record = 0; }
+function guardarRecord(){
+  try { if (puntos > record){ record = puntos; localStorage.setItem("caleb_record", String(record)); } }
+  catch(e){ if (puntos > record) record = puntos; }
+}
+
+/* ============================================================
+   CANVAS NÍTIDO
+   El juego piensa en 390x650 pero el lienzo se dibuja a la
+   resolución real del teléfono.
+   ============================================================ */
+var escala = 1;
+function ajustarLienzo(){
+  var caja = cv.getBoundingClientRect();
+  var dpr = Math.min(window.devicePixelRatio || 1, 3);
+  cv.width  = Math.round(caja.width  * dpr);
+  cv.height = Math.round(caja.height * dpr);
+  escala = Math.min(caja.width / W, caja.height / H);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener("resize", ajustarLienzo);
+window.addEventListener("orientationchange", function(){ setTimeout(ajustarLienzo, 200); });
+
+/* Convierte un punto de pantalla a coordenadas del juego */
+function aJuego(clientX, clientY){
+  var caja = cv.getBoundingClientRect();
+  var offX = (caja.width  - W * escala) / 2;
+  var offY = (caja.height - H * escala) / 2;
+  return {
+    x: (clientX - caja.left - offX) / escala,
+    y: (clientY - caja.top  - offY) / escala
+  };
+}
+
+/* ============================================================
+   AUDIO — efectos con osciladores (sin archivos externos)
+   ============================================================ */
+var actx = null;
+function audio(){
+  if (!actx){
+    var A = window.AudioContext || window.webkitAudioContext;
+    if (!A) return null;
+    try { actx = new A(); } catch(e){ return null; }
+  }
+  if (actx.state === "suspended") actx.resume();
+  return actx;
+}
+var NOTAS = {
+  start:[220,440,.18,"triangle"], shot:[680,320,.045,"square"],
+  boom:[140,45,.22,"sawtooth"],   hurt:[210,80,.30,"square"],
+  boss:[90,180,.45,"sawtooth"],   win:[440,880,.65,"triangle"],
+  lose:[240,70,.70,"sawtooth"],   nivel:[330,660,.35,"triangle"],
+  radio:[900,1200,.06,"sine"]
+};
+function sonar(tipo){
+  var a = audio(); if (!a) return;
+  var n = NOTAS[tipo]; if (!n) return;
+  try{
+    var o = a.createOscillator(), gain = a.createGain();
+    o.type = n[3];
+    o.frequency.setValueAtTime(n[0], a.currentTime);
+    o.frequency.exponentialRampToValueAtTime(Math.max(n[1],1), a.currentTime + n[2]);
+    gain.gain.setValueAtTime(tipo === "shot" ? .018 : .09, a.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.001, a.currentTime + n[2]);
+    o.connect(gain).connect(a.destination);
+    o.start(); o.stop(a.currentTime + n[2]);
+  }catch(e){}
+}
+
+/* ============================================================
+   VOZ DEL COMANDANTE
+
+   Por qué fallaba antes:
+   1. lang="es-MX" a secas — si el teléfono no tiene esa voz
+      exacta, el motor no dice nada.
+   2. getVoices() llega vacío al arrancar; hay que esperar el
+      evento voiceschanged.
+   3. cancel() seguido de speak() inmediato mata el mensaje en
+      varios motores de Android.
+   4. Sin un toque previo del usuario, el WebView bloquea todo.
+
+   Además el mensaje SIEMPRE se muestra como subtítulo, así
+   que aunque el teléfono no tenga motor de voz instalado, el
+   jugador nunca se pierde lo que dice el Comandante.
+   ============================================================ */
+var vozActiva = true, voces = [], vozDesbloqueada = false;
+
+function cargarVoces(){
+  try { voces = window.speechSynthesis.getVoices() || []; } catch(e){ voces = []; }
+}
+if ("speechSynthesis" in window){
+  cargarVoces();
+  window.speechSynthesis.onvoiceschanged = cargarVoces;
+  setTimeout(cargarVoces, 600);
+  setTimeout(cargarVoces, 1800);
+}
+
+function elegirVoz(){
+  if (!voces.length) cargarVoces();
+  var i, v;
+  for (i=0;i<voces.length;i++){ v=voces[i]; if (v.lang && /^es[-_]MX/i.test(v.lang)) return v; }
+  for (i=0;i<voces.length;i++){ v=voces[i]; if (v.lang && /^es[-_]US/i.test(v.lang)) return v; }
+  for (i=0;i<voces.length;i++){ v=voces[i]; if (v.lang && /^es/i.test(v.lang)) return v; }
+  return voces[0] || null;
+}
+
+/* El primer toque del usuario despierta el motor de voz y el audio */
+function desbloquear(){
+  if (vozDesbloqueada) return;
+  vozDesbloqueada = true;
+  audio();
+  if (!("speechSynthesis" in window)) return;
+  try{
+    var u = new SpeechSynthesisUtterance(" ");
+    u.volume = 0;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+document.addEventListener("pointerdown", desbloquear, {once:true});
+document.addEventListener("touchstart",  desbloquear, {once:true});
+document.addEventListener("keydown",     desbloquear, {once:true});
+
+var subtTimer = 0;
+function subtitulo(texto){
+  var el = $("subt");
+  el.textContent = texto;
+  el.classList.add("on");
+  clearTimeout(subtTimer);
+  subtTimer = setTimeout(function(){ el.classList.remove("on"); }, 4200);
+}
+
+function decir(texto){
+  subtitulo(texto);
+  sonar("radio");
+  if (!vozActiva || !("speechSynthesis" in window)) return;
+  try{
+    if (window.speechSynthesis.speaking || window.speechSynthesis.pending){
+      window.speechSynthesis.cancel();
+    }
+    // el retraso evita que el cancel() se coma el mensaje siguiente
+    setTimeout(function(){
+      try{
+        var u = new SpeechSynthesisUtterance(texto);
+        var v = elegirVoz();
+        if (v){ u.voice = v; u.lang = v.lang; } else { u.lang = "es-MX"; }
+        u.rate = .95; u.pitch = .88; u.volume = 1;
+        window.speechSynthesis.speak(u);
+      }catch(e){}
+    }, 90);
+  }catch(e){}
+}
+
+$("voz").addEventListener("click", function(){
+  vozActiva = !vozActiva;
+  this.textContent = vozActiva ? "VOZ ON" : "VOZ OFF";
+  this.classList.toggle("off", !vozActiva);
+  this.setAttribute("aria-pressed", String(vozActiva));
+  if (!vozActiva && "speechSynthesis" in window){
+    try { window.speechSynthesis.cancel(); } catch(e){}
+  }
+});
+
+/* ============================================================
+   ENTRADA
+   ============================================================ */
+window.addEventListener("keydown", function(e){
+  teclas[e.key.toLowerCase()] = true;
+  if (e.key.indexOf("Arrow") === 0 || e.key === " ") e.preventDefault();
+});
+window.addEventListener("keyup", function(e){ teclas[e.key.toLowerCase()] = false; });
+
+function tocar(e){
+  var p = aJuego(e.clientX, e.clientY);
+  dedo.x = p.x; dedo.y = p.y; dedo.on = true;
+}
+cv.addEventListener("pointerdown", function(e){ e.preventDefault(); tocar(e); });
+cv.addEventListener("pointermove", function(e){ if (e.buttons || e.pointerType === "touch") tocar(e); });
+cv.addEventListener("pointerup",     function(){ dedo.on = false; });
+cv.addEventListener("pointercancel", function(){ dedo.on = false; });
+
+/* ============================================================
+   HUD
+   ============================================================ */
+function pintarHUD(){
+  $("hPuntos").textContent = String(puntos).padStart(6, "0");
+  $("hVidas").textContent  = vidas > 0 ? "◆ ".repeat(vidas).trim() : "—";
+  $("hNivel").textContent  = nivel + " / " + MAX_NIVEL;
+  $("mision").textContent  = "MISIÓN " + String(nivel).padStart(2,"0") + " · " + (MISIONES[nivel-1] || "");
+}
+
+function verBarraJefe(ver, nombre, frac){
+  var b = $("bossBar");
+  b.classList.toggle("on", !!ver);
+  if (nombre) $("bossNom").textContent = nombre;
+  if (typeof frac === "number") $("bossFill").style.width = Math.max(0, frac * 100) + "%";
+}
+
+/* ============================================================
+   CREACIÓN DE ENTIDADES
+   ============================================================ */
+function estrellas(){
+  var a = [], i;
+  for (i=0;i<90;i++) a.push({
+    x: Math.random()*W, y: Math.random()*H,
+    s: Math.random()*2+1, v: Math.random()*1.5+.5
+  });
+  return a;
+}
+
+function crearEnemigo(cfg, lado){
+  var tipo = "caza";
+  var r = Math.random();
+  if (cfg.asteroides && r < .22) tipo = "roca";
+  else if (cfg.divisores && r < .42) tipo = "divisor";
+
+  var x;
+  if (cfg.frenteDoble && lado !== undefined) x = lado ? 20 + Math.random()*150 : 220 + Math.random()*150;
+  else x = 25 + Math.random()*320;
+
+  return {
+    tipo: tipo, x: x, y: -30 - Math.random()*90,
+    w: tipo === "roca" ? 32 : 28,
+    h: tipo === "roca" ? 32 : 28,
+    hp: tipo === "roca" ? cfg.vidaEnemigo + 2 : cfg.vidaEnemigo,
+    ph: Math.random()*6,
+    lado: lado ? 1 : -1,
+    sh: cfg.cadenciaEnemiga + Math.random()*90,
+    pequeno: false
+  };
+}
+
+function crearCria(cfg, padre, dir){
+  return {
+    tipo:"caza", x: padre.x + dir*14, y: padre.y,
+    w:18, h:18, hp:1, ph:Math.random()*6, lado:dir,
+    sh: cfg.cadenciaEnemiga, pequeno:true
+  };
+}
+
+function crearJefe(cfg){
+  sonar("boss");
+  var vida = cfg.jefeVida;
+  g.jefe = {
+    x:115, y:-100, w:160, h:82,
+    hp: vida, max: vida, dir:1, sh:55, patron:0, ciclo:0,
+    fase: cfg.nivel === 4 ? 1 : cfg.nivel === 8 ? 2 : 3
+  };
+  verBarraJefe(true, cfg.nivel === 12 ? "VARKON PRIME · FORMA FINAL" : "VARKON PRIME", 1);
+  decir(cfg.nivel === 12
+    ? "Comandante Caleb, es la forma final de Varkon Prime. Todo depende de usted."
+    : "Alerta, Comandante Caleb. Varkon Prime se aproxima.");
+}
+
+function chispas(x, y, color, cantidad){
+  var i, n = cantidad || 14;
+  for (i=0;i<n;i++) g.fx.push({
+    x:x, y:y, vx:(Math.random()-.5)*7, vy:(Math.random()-.5)*7, a:1, col:color
+  });
+}
+
+/* ============================================================
+   CICLO DE NIVEL
+   ============================================================ */
+function iniciarNivel(n){
+  var cfg = configNivel(n);
+  nivel = n;
+  g = {
+    cfg: cfg,
+    p: {x:180, y:555, w:30, h:42, c:0, inv:60},
+    bs: [], es: [], eb: [], fx: [],
+    stars: (g && g.stars) ? g.stars : estrellas(),
+    t: 0, spawn: 45,
+    porGenerar: cfg.enemigosTotal,
+    jefePendiente: cfg.jefe,
+    jefe: null,
+    ladoAlterno: false
+  };
+  verBarraJefe(false);
+  pintarHUD();
+  estado = "jugando";
+  $("overlay").classList.add("hide");
+  ultimo = performance.now();
+  cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(bucle);
+}
+
+function nivelSuperado(){
+  estado = "superado";
+  g.jefe = null;
+  verBarraJefe(false);
+  guardarRecord();
+  cancelAnimationFrame(rafId);
+
+  if (nivel >= MAX_NIVEL){
+    estado = "ganado";
+    sonar("win");
+    decir("¡Victoria, Comandante Caleb! El Dominio es libre.");
+    pantalla("SECTOR LIBERADO",
+      "Comandante Caleb, ha derrotado a Varkon Prime con " + puntos + " puntos.",
+      "VOLVER A EMPEZAR");
+  } else {
+    sonar("nivel");
+    decir("Nivel superado, Comandante Caleb. Prepare la Invictus para la misión " + (nivel+1) + ".");
+    pantalla("NIVEL " + nivel + " SUPERADO",
+      "Siguiente destino: " + MISIONES[nivel] + ".",
+      "CONTINUAR");
+  }
+}
+
+function derrota(){
+  estado = "perdido";
+  g.jefe = null;
+  verBarraJefe(false);
+  guardarRecord();
+  cancelAnimationFrame(rafId);
+  sonar("lose");
+  decir("Comandante Caleb, debemos regresar a la base.");
+  pantalla("MISIÓN FALLIDA", "La Invictus volverá a luchar.", "REINTENTAR NIVEL " + nivel);
+}
+
+function pantalla(titulo, texto, boton){
+  $("ovTitulo").textContent = titulo;
+  $("ovTexto").textContent  = texto;
+  $("ovBoton").textContent  = boton;
+  $("ovTip").textContent    = record > 0 ? "Récord: " + record + " puntos" : "";
+  $("overlay").classList.remove("hide");
+}
+
+$("ovBoton").addEventListener("click", function(){
+  desbloquear();
+  sonar("start");
+  if (estado === "menu" || estado === "ganado"){
+    puntos = 0; vidas = 3;
+    decir("Comandante Caleb, la misión ha comenzado. La nave Invictus está lista.");
+    iniciarNivel(1);
+  } else if (estado === "superado"){
+    iniciarNivel(nivel + 1);
+  } else {                       // perdido
+    vidas = 3;
+    iniciarNivel(nivel);
+  }
+});
+
+/* ============================================================
+   BUCLE PRINCIPAL
+   ============================================================ */
+function choca(a, b){
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+function bucle(ahora){
+  if (estado !== "jugando" || !g) return;
+  var dt = Math.min((ahora - ultimo) / 16.7, 2);
+  ultimo = ahora;
+  g.t += dt;
+
+  var cfg = g.cfg, p = g.p, i, e, b;
+
+  /* --- nave del jugador --- */
+  var dx = ((teclas.d || teclas.arrowright) ? 1 : 0) - ((teclas.a || teclas.arrowleft) ? 1 : 0);
+  var dy = ((teclas.s || teclas.arrowdown)  ? 1 : 0) - ((teclas.w || teclas.arrowup)   ? 1 : 0);
+  p.x += dx * 5.4 * dt;
+  p.y += dy * 5.4 * dt;
+  if (dedo.on){
+    p.x += (dedo.x - p.x - 15) * .18 * dt;
+    p.y += (dedo.y - p.y - 20) * .18 * dt;
+  }
+  p.x = Math.max(8, Math.min(W - 38, p.x));
+  p.y = Math.max(70, Math.min(H - 52, p.y));
+  p.c   -= dt;
+  p.inv  = Math.max(0, p.inv - dt);
+
+  if (p.c <= 0){
+    g.bs.push({x:p.x+5, y:p.y-8, w:5, h:16}, {x:p.x+20, y:p.y-8, w:5, h:16});
+    if (cfg.tripleDisparo) g.bs.push({x:p.x+12.5, y:p.y-14, w:5, h:16});
+    p.c = cfg.tripleDisparo ? 8 : 9;
+    sonar("shot");
+  }
+
+  /* --- aparición de enemigos --- */
+  g.spawn -= dt;
+  if (!g.jefe && g.porGenerar > 0 && g.spawn <= 0){
+    var tanda = Math.min(cfg.porTanda, g.porGenerar);
+    for (i=0;i<tanda;i++){
+      var lado = cfg.frenteDoble ? (i % 2 === 0) : undefined;
+      g.es.push(crearEnemigo(cfg, lado));
+    }
+    g.porGenerar -= tanda;
+    g.spawn = cfg.spawnCada;
+  }
+
+  /* --- fin de nivel / entrada del jefe --- */
+  if (!g.jefe && g.porGenerar <= 0 && g.es.length === 0){
+    if (g.jefePendiente){ g.jefePendiente = false; crearJefe(cfg); }
+    else { nivelSuperado(); return; }
+  }
+
+  /* --- movimiento --- */
+  for (i=0;i<g.stars.length;i++){
+    var s = g.stars[i];
+    s.y += s.v * dt;
+    if (s.y > H){ s.y = 0; s.x = Math.random()*W; }
+  }
+  for (i=0;i<g.bs.length;i++) g.bs[i].y -= 10 * dt;
+  for (i=0;i<g.eb.length;i++){ g.eb[i].x += g.eb[i].vx * dt; g.eb[i].y += g.eb[i].vy * dt; }
+
+  for (i=0;i<g.es.length;i++){
+    e = g.es[i];
+    if (e.tipo === "roca"){
+      e.y += (cfg.velEnemigo + .5) * dt;
+      e.ph += .04 * dt;
+    } else {
+      e.y += cfg.velEnemigo * dt;
+      var vaiven = cfg.zigzag ? 1.6 : .65;
+      e.x += Math.sin(g.t * .025 + e.ph) * vaiven * e.lado;
+      e.x = Math.max(2, Math.min(W - e.w - 2, e.x));
+      if (cfg.disparan){
+        e.sh -= dt;
+        if (e.sh < 0){
+          g.eb.push({x:e.x + e.w/2 - 2, y:e.y + e.h, w:5, h:11, vx:0, vy:cfg.velBalaEnemiga});
+          e.sh = cfg.cadenciaEnemiga + Math.random()*90;
+        }
+      }
+    }
+  }
+
+  /* --- jefe --- */
+  if (g.jefe){
+    var j = g.jefe;
+    j.y  = Math.min(75, j.y + .8 * dt);
+    j.x += j.dir * (.85 + j.fase * .25) * dt;
+    if (j.x < 8 || j.x > W - j.w - 8) j.dir *= -1;
+    j.sh -= dt;
+    if (j.sh < 0){
+      var a;
+      if (j.fase === 1){
+        for (a=-2;a<=2;a++) g.eb.push({x:j.x+78, y:j.y+65, w:7, h:13, vx:a*.55, vy:2.8});
+        j.sh = 58;
+      } else if (j.fase === 2){
+        j.ciclo++;
+        if (j.ciclo % 3 === 0){
+          var ang = Math.atan2(p.y - (j.y+65), p.x - (j.x+78));
+          g.eb.push({x:j.x+78, y:j.y+65, w:8, h:14, vx:Math.cos(ang)*3.4, vy:Math.sin(ang)*3.4});
+        } else {
+          for (a=-3;a<=3;a++) g.eb.push({x:j.x+78, y:j.y+65, w:7, h:13, vx:a*.5, vy:3.1});
+        }
+        j.sh = 46;
+      } else {
+        j.ciclo++;
+        for (a=-4;a<=4;a++) g.eb.push({x:j.x+78, y:j.y+65, w:7, h:13, vx:a*.48, vy:3.3});
+        if (j.ciclo % 4 === 0 && g.es.length < 5){
+          g.es.push(crearCria(cfg, {x:j.x+40, y:j.y+70}, -1));
+          g.es.push(crearCria(cfg, {x:j.x+110, y:j.y+70}, 1));
+        }
+        j.sh = 40;
+      }
+    }
+  }
+
+  /* --- balas del jugador contra enemigos --- */
+  for (i=0;i<g.bs.length;i++){
+    b = g.bs[i];
+    if (b.dead) continue;
+    var k;
+    for (k=0;k<g.es.length;k++){
+      e = g.es[k];
+      if (e.dead) continue;
+      if (choca(b, e)){
+        b.dead = true;
+        e.hp--;
+        if (e.hp <= 0){
+          e.dead = true;
+          puntos += e.tipo === "roca" ? 60 : e.pequeno ? 40 : 100;
+          chispas(e.x + e.w/2, e.y + e.h/2, e.tipo === "roca" ? "#b9a487" : "#ff4f8c");
+          sonar("boom");
+          if (e.tipo === "divisor" && !e.pequeno){
+            g.es.push(crearCria(cfg, e, -1), crearCria(cfg, e, 1));
+          }
+        }
+        break;
+      }
+    }
+    if (!b.dead && g.jefe && choca(b, g.jefe)){
+      b.dead = true;
+      g.jefe.hp--;
+      verBarraJefe(true, null, g.jefe.hp / g.jefe.max);
+      chispas(b.x, b.y, "#ffc861", 4);
+      if (g.jefe.hp <= 0){
+        puntos += 1500 * (nivel / 4);
+        chispas(g.jefe.x + 80, g.jefe.y + 40, "#ffc861", 40);
+        sonar("boom");
+        nivelSuperado();
+        return;
+      }
+    }
+  }
+
+  /* --- daño al jugador --- */
+  function danar(){
+    if (p.inv > 0) return;
+    p.inv = 110;
+    vidas--;
+    pintarHUD();
+    chispas(p.x + 15, p.y + 20, "#5df5ff", 20);
+    sonar("hurt");
+    if (vidas === 1) decir("Comandante Caleb, cuidado. Los escudos están al mínimo.");
+    if (vidas <= 0){ derrota(); }
+  }
+  for (i=0;i<g.eb.length;i++){
+    b = g.eb[i];
+    if (!b.dead && choca(b, p)){ b.dead = true; danar(); if (estado !== "jugando") return; }
+  }
+  for (i=0;i<g.es.length;i++){
+    e = g.es[i];
+    if (!e.dead && choca(e, p)){ e.dead = true; danar(); if (estado !== "jugando") return; }
+  }
+
+  /* --- limpieza --- */
+  g.bs = g.bs.filter(function(o){ return !o.dead && o.y > -30; });
+  g.es = g.es.filter(function(o){ return !o.dead && o.y < H + 40; });
+  g.eb = g.eb.filter(function(o){ return !o.dead && o.y < H + 40 && o.x > -30 && o.x < W + 30; });
+  for (i=0;i<g.fx.length;i++){ var q = g.fx[i]; q.x += q.vx; q.y += q.vy; q.a -= .04; }
+  g.fx = g.fx.filter(function(q){ return q.a > 0; });
+
+  pintarHUD();
+  dibujar();
+  rafId = requestAnimationFrame(bucle);
+}
+
+/* ============================================================
+   DIBUJO
+   ============================================================ */
+function dibujar(){
+  var caja = cv.getBoundingClientRect();
+  var i, e;
+
+  ctx.clearRect(0, 0, caja.width, caja.height);
+  ctx.save();
+  ctx.translate((caja.width - W*escala)/2, (caja.height - H*escala)/2);
+  ctx.scale(escala, escala);
+
+  // fondo
+  var bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, "#08072d");
+  bg.addColorStop(1, "#02151f");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // estrellas
+  ctx.fillStyle = "#fff";
+  for (i=0;i<g.stars.length;i++){
+    var s = g.stars[i];
+    ctx.globalAlpha = .3 + s.s/4;
+    ctx.fillRect(s.x, s.y, s.s, s.s*1.7);
+  }
+  ctx.globalAlpha = 1;
+
+  // balas del jugador
+  ctx.shadowBlur = 12; ctx.shadowColor = "#59efff"; ctx.fillStyle = "#c8ffff";
+  for (i=0;i<g.bs.length;i++) ctx.fillRect(g.bs[i].x, g.bs[i].y, g.bs[i].w, g.bs[i].h);
+  ctx.shadowBlur = 0;
+
+  // balas enemigas
+  ctx.fillStyle = "#ff4778";
+  for (i=0;i<g.eb.length;i++) ctx.fillRect(g.eb[i].x, g.eb[i].y, g.eb[i].w, g.eb[i].h);
+
+  // enemigos
+  for (i=0;i<g.es.length;i++){
+    e = g.es[i];
+    if (e.tipo === "roca"){
+      ctx.save();
+      ctx.translate(e.x + e.w/2, e.y + e.h/2);
+      ctx.rotate(e.ph);
+      ctx.fillStyle = "#8d7b63";
+      ctx.beginPath();
+      ctx.moveTo(-15,-6); ctx.lineTo(-6,-15); ctx.lineTo(9,-13);
+      ctx.lineTo(16,0);   ctx.lineTo(8,14);   ctx.lineTo(-8,13);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#6b5b47";
+      ctx.fillRect(-5,-4,7,6);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = e.tipo === "divisor" ? "#b45cff" : "#ef3e82";
+      ctx.beginPath();
+      ctx.moveTo(e.x + e.w/2, e.y + e.h);
+      ctx.lineTo(e.x, e.y + e.h*0.14);
+      ctx.lineTo(e.x + e.w/2, e.y + e.h*0.36);
+      ctx.lineTo(e.x + e.w, e.y + e.h*0.14);
+      ctx.closePath(); ctx.fill();
+    }
+  }
+
+  // jefe
+  if (g.jefe){
+    var j = g.jefe;
+    ctx.fillStyle = j.fase === 3 ? "#ff2d6f" : "#e83e8c";
+    ctx.beginPath();
+    ctx.moveTo(j.x, j.y+55); ctx.lineTo(j.x+80, j.y); ctx.lineTo(j.x+160, j.y+55);
+    ctx.lineTo(j.x+120, j.y+82); ctx.lineTo(j.x+40, j.y+82);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "#ffe86b";
+    ctx.fillRect(j.x+68, j.y+38, 24, 14);
+    if (j.fase >= 2){
+      ctx.fillStyle = "#5df5ff";
+      ctx.fillRect(j.x+26, j.y+52, 12, 8);
+      ctx.fillRect(j.x+122, j.y+52, 12, 8);
+    }
+  }
+
+  // la Invictus (parpadea mientras es invulnerable)
+  var p = g.p;
+  if (p.inv <= 0 || Math.floor(p.inv) % 10 < 5){
+    ctx.save();
+    ctx.translate(p.x + 15, p.y + 21);
+    ctx.fillStyle = "#52e9ff";
+    ctx.beginPath();
+    ctx.moveTo(0,-22); ctx.lineTo(15,18); ctx.lineTo(5,13);
+    ctx.lineTo(0,22);  ctx.lineTo(-5,13); ctx.lineTo(-15,18);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "#fff28a"; ctx.fillRect(-3,18,6,14);
+    ctx.fillStyle = "#172a6f"; ctx.fillRect(-4,-6,8,15);
+    ctx.restore();
+  }
+
+  // chispas
+  for (i=0;i<g.fx.length;i++){
+    var q = g.fx[i];
+    ctx.globalAlpha = q.a;
+    ctx.fillStyle = q.col;
+    ctx.fillRect(q.x, q.y, 4, 4);
+  }
+  ctx.globalAlpha = 1;
+  ctx.restore();
+}
+
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
+ajustarLienzo();
+setTimeout(ajustarLienzo, 120);
+pintarHUD();
+$("ovTip").textContent = record > 0 ? "Récord: " + record + " puntos" : "";
+</script>
+</body>
+</html>
