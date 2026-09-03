@@ -19,47 +19,34 @@ body{
   padding:calc(env(safe-area-inset-top) + 8px) 12px calc(env(safe-area-inset-bottom) + 6px);
 }
 header{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex:0 0 auto}
-.eyebrow{
-  display:block;font-size:10px;letter-spacing:.18em;color:#5df5ff;
-  font-weight:700;margin-bottom:3px;
-}
-header h1{
-  margin:0;font-size:19px;font-weight:800;letter-spacing:.05em;line-height:1.1;
-}
+.eyebrow{display:block;font-size:10px;letter-spacing:.18em;color:#5df5ff;font-weight:700;margin-bottom:3px}
+header h1{margin:0;font-size:19px;font-weight:800;letter-spacing:.05em;line-height:1.1}
 header h1 i{font-style:italic;color:#ffc861;font-weight:700}
 .pilot{text-align:right;line-height:1.15;flex:0 0 auto}
 .pilot span{display:block;font-size:8px;letter-spacing:.2em;color:#7c8ba8}
 .pilot b{font-size:13px;letter-spacing:.08em;color:#ffc861}
 
-.hud{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 8px;flex:0 0 auto;
-}
-.hud>div{
-  background:rgba(93,245,255,.06);border:1px solid rgba(93,245,255,.22);
-  border-radius:7px;padding:5px 8px;
-}
+.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 6px;flex:0 0 auto}
+.hud>div{background:rgba(93,245,255,.06);border:1px solid rgba(93,245,255,.22);border-radius:7px;padding:5px 8px}
 .hud small{display:block;font-size:8px;letter-spacing:.16em;color:#7c8ba8}
-.hud strong{
-  display:block;font-size:15px;font-weight:700;color:#eaf6ff;
-  font-family:"Courier New",monospace;letter-spacing:.04em;
-}
+.hud strong{display:block;font-size:15px;font-weight:700;color:#eaf6ff;font-family:"Courier New",monospace;letter-spacing:.04em}
 
-.arena{
-  position:relative;flex:1 1 auto;min-height:0;
-  border:1px solid rgba(93,245,255,.24);border-radius:12px;overflow:hidden;
-  background:#02030b;
+.avance{flex:0 0 auto;margin-bottom:6px}
+.avance .pista{height:4px;background:rgba(255,255,255,.09);border-radius:3px;overflow:hidden}
+.avance .pista i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2f9bff,#5df5ff);transition:width .25s}
+.mejoras{
+  display:flex;gap:10px;align-items:center;margin-top:5px;
+  font-size:10px;letter-spacing:.08em;color:#7c8ba8;min-height:13px;
 }
+.mejoras b{color:#ffc861;font-weight:700}
+.mejoras.vacio{opacity:.45}
+
+.arena{position:relative;flex:1 1 auto;min-height:0;border:1px solid rgba(93,245,255,.24);border-radius:12px;overflow:hidden;background:#02030b}
 canvas{display:block;width:100%;height:100%;touch-action:none}
 
-.boss{
-  position:absolute;left:12px;right:12px;top:10px;z-index:3;pointer-events:none;
-  opacity:0;transition:opacity .25s;
-}
+.boss{position:absolute;left:12px;right:12px;top:10px;z-index:3;pointer-events:none;opacity:0;transition:opacity .25s}
 .boss.on{opacity:1}
-.boss span{
-  display:block;font-size:9px;letter-spacing:.2em;color:#ff6f9d;
-  margin-bottom:3px;text-shadow:0 0 8px rgba(255,60,120,.6);
-}
+.boss span{display:block;font-size:9px;letter-spacing:.2em;color:#ff6f9d;margin-bottom:3px;text-shadow:0 0 8px rgba(255,60,120,.6)}
 .boss .bar{height:6px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden}
 .boss .bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff2d6f,#ffc861);transition:width .12s}
 
@@ -70,42 +57,24 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
   opacity:0;transform:translateY(8px);transition:opacity .22s,transform .22s;
 }
 .subt.on{opacity:1;transform:none}
+.subt.premio{border-left-color:#ffc861;color:#ffe4ab}
 
 .overlay{
-  position:absolute;inset:0;z-index:4;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:11px;padding:26px 22px;text-align:center;
+  position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:11px;padding:26px 22px;text-align:center;
   background:radial-gradient(circle at 50% 38%,rgba(12,22,58,.94),rgba(2,3,11,.98));
 }
 .overlay.hide{display:none}
-.crest{
-  width:52px;height:52px;border-radius:50%;
-  border:2px solid #5df5ff;display:grid;place-items:center;
-  font-size:25px;font-weight:800;color:#5df5ff;
-  box-shadow:0 0 22px rgba(93,245,255,.35);
-}
+.crest{width:52px;height:52px;border-radius:50%;border:2px solid #5df5ff;display:grid;place-items:center;font-size:25px;font-weight:800;color:#5df5ff;box-shadow:0 0 22px rgba(93,245,255,.35)}
 .overlay h2{margin:0;font-size:20px;letter-spacing:.05em;font-weight:800}
 .overlay p{margin:0;font-size:13px;line-height:1.5;color:#a9bcd6;max-width:34ch}
-.overlay button{
-  margin-top:4px;padding:12px 26px;border:0;border-radius:8px;
-  background:linear-gradient(135deg,#5df5ff,#2f9bff);color:#00121f;
-  font-size:13.5px;font-weight:800;letter-spacing:.09em;cursor:pointer;
-  font-family:inherit;
-}
+.overlay button{margin-top:4px;padding:12px 26px;border:0;border-radius:8px;background:linear-gradient(135deg,#5df5ff,#2f9bff);color:#00121f;font-size:13.5px;font-weight:800;letter-spacing:.09em;cursor:pointer;font-family:inherit}
 .overlay button:active{transform:scale(.97)}
 .overlay button:focus-visible{outline:3px solid #ffc861;outline-offset:2px}
-
 .tip{font-size:11px;color:#6d7f9c;line-height:1.45;max-width:32ch}
 
-footer{
-  flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;
-  gap:8px;padding-top:7px;font-size:10px;color:#6d7f9c;
-}
-#voz{
-  flex:0 0 auto;background:transparent;border:1px solid rgba(93,245,255,.3);
-  color:#5df5ff;border-radius:6px;padding:5px 10px;font-size:10px;
-  letter-spacing:.1em;font-family:inherit;cursor:pointer;
-}
+footer{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:7px;font-size:10px;color:#6d7f9c}
+#voz{flex:0 0 auto;background:transparent;border:1px solid rgba(93,245,255,.3);color:#5df5ff;border-radius:6px;padding:5px 10px;font-size:10px;letter-spacing:.1em;font-family:inherit;cursor:pointer}
 #voz.off{color:#6d7f9c;border-color:rgba(120,140,170,.3)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -125,6 +94,11 @@ footer{
     <div><small>VIDAS</small><strong id="hVidas">◆ ◆ ◆</strong></div>
     <div><small>NIVEL</small><strong id="hNivel">1 / 12</strong></div>
   </section>
+
+  <div class="avance">
+    <div class="pista"><i id="hAvance"></i></div>
+    <div class="mejoras vacio" id="hMejoras">Sin mejoras · destruye enemigos para conseguirlas</div>
+  </div>
 
   <div class="arena">
     <canvas id="cv"></canvas>
@@ -149,13 +123,19 @@ footer{
 "use strict";
 
 /* ============================================================
-   CALEB: SPACE DOMINION — 12 misiones
-   Un solo archivo, sin dependencias. Funciona con file:// y
-   dentro del WebView de Android (Capacitor).
+   CALEB: SPACE DOMINION
+   12 misiones largas · dificultad que sube dentro del nivel
+   · mejoras acumulables para la Invictus
+   Un solo archivo, sin dependencias.
    ============================================================ */
 
-var W = 390, H = 650;               // coordenadas lógicas del juego
+var W = 390, H = 650;
 var MAX_NIVEL = 12;
+
+/* Duración base de cada misión: unos 5 minutos a 60 fps.
+   Es un piso, no un cronómetro. El nivel termina cuando
+   despachas todas las oleadas, así que si te cuesta, dura más. */
+var FRAMES_MISION = 18000;
 
 var MISIONES = [
   "ÓRBITA CERO","CINTURÓN DE HIERRO","NEBULOSA ESPEJO","GUARIDA DE VARKON",
@@ -163,43 +143,82 @@ var MISIONES = [
   "POZO GRAVITACIONAL","LUNA QUEBRADA","FRENTE DOBLE","TRONO DE VARKON PRIME"
 ];
 
-/* ---------- Curva de dificultad ----------
-   Los Math.min / Math.max son topes: sin ellos el nivel 12
-   sería matemáticamente imposible de esquivar.               */
+/* Una frase por misión. Cada una nombra al Comandante una sola vez. */
+var CIERRE = [
+  "Comandante Caleb, órbita cero está limpia.",
+  "El cinturón de hierro es nuestro, Comandante Caleb.",
+  "Nebulosa espejo despejada. Buen vuelo, Comandante Caleb.",
+  "Comandante Caleb, la guarida ha caído. Varkon Prime se retira.",
+  "Anillo de ceniza asegurado, Comandante Caleb.",
+  "Puerto fantasma recuperado, Comandante Caleb.",
+  "Campo de escombros cruzado, Comandante Caleb. La Invictus resiste.",
+  "La forja eclipse arde, Comandante Caleb. Varkon Prime huye otra vez.",
+  "Pozo gravitacional superado, Comandante Caleb.",
+  "Luna quebrada bajo control, Comandante Caleb. Falta poco.",
+  "Frente doble roto, Comandante Caleb. El trono está a la vista.",
+  "Victoria total, Comandante Caleb. El Dominio es libre."
+];
+
+/* ---------- Curva de dificultad entre niveles ----------
+   Los topes (Math.min / Math.max) evitan que el nivel 12
+   sea matemáticamente imposible de esquivar.               */
 function configNivel(n){
+  var spawnCada = Math.max(72, 150 - n * 6);
   return {
-    nivel:            n,
-    nombre:           MISIONES[n-1] || "SECTOR DESCONOCIDO",
-    enemigosTotal:    6 + n * 3,
-    porTanda:         Math.min(2 + Math.floor(n/2), 6),
-    velEnemigo:       Math.min(0.70 + n * 0.11, 2.4),
-    vidaEnemigo:      1 + Math.floor((n-1)/3),
-    spawnCada:        Math.max(95, 210 - n * 9),
-    cadenciaEnemiga:  Math.max(72, 170 - n * 8),
-    velBalaEnemiga:   Math.min(2.2 + n * 0.14, 4.8),
-    // mecánicas nuevas, para que no sea solo subir números
-    disparan:         n >= 2,
-    zigzag:           n >= 3,
-    asteroides:       n >= 7,
-    divisores:        n >= 9,
-    frenteDoble:      n >= 11,
-    tripleDisparo:    n >= 6,
-    jefe:             n % 4 === 0,
-    jefeVida:         n === 4 ? 60 : n === 8 ? 115 : 190
+    nivel:           n,
+    nombre:          MISIONES[n-1] || "SECTOR DESCONOCIDO",
+    spawnCada:       spawnCada,
+    tandas:          Math.ceil(FRAMES_MISION / spawnCada),
+    porTanda:        Math.min(2 + Math.floor(n/3), 5),
+    maxEnPantalla:   Math.min(7 + n, 15),
+    velEnemigo:      Math.min(0.70 + n * 0.10, 2.1),
+    vidaEnemigo:     1 + Math.floor((n-1)/3),
+    cadenciaEnemiga: Math.max(80, 175 - n * 8),
+    velBalaEnemiga:  Math.min(2.2 + n * 0.13, 4.6),
+    disparan:        n >= 2,
+    zigzag:          n >= 3,
+    asteroides:      n >= 7,
+    divisores:       n >= 9,
+    frenteDoble:     n >= 11,
+    jefe:            n % 4 === 0,
+    jefeVida:        n === 4 ? 90 : n === 8 ? 180 : 300
   };
 }
 
+/* ---------- Dificultad DENTRO del nivel ----------
+   presion va de 0 al empezar la misión a 1 en la última
+   oleada. Los enemigos del final son claramente peores
+   que los del principio.                                  */
+function ajustePresion(cfg, presion){
+  return {
+    vel:    cfg.velEnemigo     * (1 + presion * 0.55),
+    cad:    cfg.cadenciaEnemiga * (1 - presion * 0.38),
+    bala:   cfg.velBalaEnemiga * (1 + presion * 0.25),
+    hp:     cfg.vidaEnemigo    + Math.floor(presion * 2.2),
+    tanda:  cfg.porTanda       + Math.round(presion * 2)
+  };
+}
+
+/* ---------- Mejoras acumulables ---------- */
+var TOPE = {arma:5, cadencia:5, dron:2};
+var mejoras = {arma:0, cadencia:0, dron:0};
+var PREMIOS = [
+  {tipo:"arma",     col:"#5df5ff", letra:"✦", texto:"Cañón mejorado"},
+  {tipo:"cadencia", col:"#9dff7a", letra:"⚡", texto:"Cadencia aumentada"},
+  {tipo:"dron",     col:"#c08bff", letra:"◈", texto:"Dron de escolta acoplado"},
+  {tipo:"escudo",   col:"#ffc861", letra:"⊕", texto:"Escudo reparado"}
+];
+
 /* ---------- Estado global ---------- */
-var estado = "menu";                 // menu | jugando | superado | ganado | perdido
+var estado = "menu";
 var nivel = 1, puntos = 0, vidas = 3, record = 0;
 var g = null, rafId = 0, ultimo = 0;
-var teclas = {}, dedo = {x:0,y:0,on:false};
+var teclas = {}, dedo = {x:0, y:0, on:false};
 
 var cv = document.getElementById("cv");
 var ctx = cv.getContext("2d");
-var $ = function(id){ return document.getElementById(id); };
+function $(id){ return document.getElementById(id); }
 
-/* ---------- Récord (protegido: file:// puede bloquear localStorage) ---------- */
 try { record = parseInt(localStorage.getItem("caleb_record") || "0", 10) || 0; } catch(e){ record = 0; }
 function guardarRecord(){
   try { if (puntos > record){ record = puntos; localStorage.setItem("caleb_record", String(record)); } }
@@ -207,9 +226,7 @@ function guardarRecord(){
 }
 
 /* ============================================================
-   CANVAS NÍTIDO
-   El juego piensa en 390x650 pero el lienzo se dibuja a la
-   resolución real del teléfono.
+   LIENZO NÍTIDO
    ============================================================ */
 var escala = 1;
 function ajustarLienzo(){
@@ -223,19 +240,15 @@ function ajustarLienzo(){
 window.addEventListener("resize", ajustarLienzo);
 window.addEventListener("orientationchange", function(){ setTimeout(ajustarLienzo, 200); });
 
-/* Convierte un punto de pantalla a coordenadas del juego */
-function aJuego(clientX, clientY){
+function aJuego(cx, cy){
   var caja = cv.getBoundingClientRect();
   var offX = (caja.width  - W * escala) / 2;
   var offY = (caja.height - H * escala) / 2;
-  return {
-    x: (clientX - caja.left - offX) / escala,
-    y: (clientY - caja.top  - offY) / escala
-  };
+  return {x:(cx - caja.left - offX) / escala, y:(cy - caja.top - offY) / escala};
 }
 
 /* ============================================================
-   AUDIO — efectos con osciladores (sin archivos externos)
+   AUDIO
    ============================================================ */
 var actx = null;
 function audio(){
@@ -252,7 +265,7 @@ var NOTAS = {
   boom:[140,45,.22,"sawtooth"],   hurt:[210,80,.30,"square"],
   boss:[90,180,.45,"sawtooth"],   win:[440,880,.65,"triangle"],
   lose:[240,70,.70,"sawtooth"],   nivel:[330,660,.35,"triangle"],
-  radio:[900,1200,.06,"sine"]
+  radio:[900,1200,.06,"sine"],    premio:[520,1040,.22,"triangle"]
 };
 function sonar(tipo){
   var a = audio(); if (!a) return;
@@ -262,7 +275,7 @@ function sonar(tipo){
     o.type = n[3];
     o.frequency.setValueAtTime(n[0], a.currentTime);
     o.frequency.exponentialRampToValueAtTime(Math.max(n[1],1), a.currentTime + n[2]);
-    gain.gain.setValueAtTime(tipo === "shot" ? .018 : .09, a.currentTime);
+    gain.gain.setValueAtTime(tipo === "shot" ? .015 : .09, a.currentTime);
     gain.gain.exponentialRampToValueAtTime(.001, a.currentTime + n[2]);
     o.connect(gain).connect(a.destination);
     o.start(); o.stop(a.currentTime + n[2]);
@@ -271,19 +284,6 @@ function sonar(tipo){
 
 /* ============================================================
    VOZ DEL COMANDANTE
-
-   Por qué fallaba antes:
-   1. lang="es-MX" a secas — si el teléfono no tiene esa voz
-      exacta, el motor no dice nada.
-   2. getVoices() llega vacío al arrancar; hay que esperar el
-      evento voiceschanged.
-   3. cancel() seguido de speak() inmediato mata el mensaje en
-      varios motores de Android.
-   4. Sin un toque previo del usuario, el WebView bloquea todo.
-
-   Además el mensaje SIEMPRE se muestra como subtítulo, así
-   que aunque el teléfono no tenga motor de voz instalado, el
-   jugador nunca se pierde lo que dice el Comandante.
    ============================================================ */
 var vozActiva = true, voces = [], vozDesbloqueada = false;
 
@@ -296,7 +296,6 @@ if ("speechSynthesis" in window){
   setTimeout(cargarVoces, 600);
   setTimeout(cargarVoces, 1800);
 }
-
 function elegirVoz(){
   if (!voces.length) cargarVoces();
   var i, v;
@@ -305,41 +304,32 @@ function elegirVoz(){
   for (i=0;i<voces.length;i++){ v=voces[i]; if (v.lang && /^es/i.test(v.lang)) return v; }
   return voces[0] || null;
 }
-
-/* El primer toque del usuario despierta el motor de voz y el audio */
 function desbloquear(){
   if (vozDesbloqueada) return;
   vozDesbloqueada = true;
   audio();
   if (!("speechSynthesis" in window)) return;
-  try{
-    var u = new SpeechSynthesisUtterance(" ");
-    u.volume = 0;
-    window.speechSynthesis.speak(u);
-  }catch(e){}
+  try { var u = new SpeechSynthesisUtterance(" "); u.volume = 0; window.speechSynthesis.speak(u); } catch(e){}
 }
 document.addEventListener("pointerdown", desbloquear, {once:true});
 document.addEventListener("touchstart",  desbloquear, {once:true});
 document.addEventListener("keydown",     desbloquear, {once:true});
 
 var subtTimer = 0;
-function subtitulo(texto){
+function subtitulo(texto, premio){
   var el = $("subt");
   el.textContent = texto;
+  el.classList.toggle("premio", !!premio);
   el.classList.add("on");
   clearTimeout(subtTimer);
-  subtTimer = setTimeout(function(){ el.classList.remove("on"); }, 4200);
+  subtTimer = setTimeout(function(){ el.classList.remove("on"); }, premio ? 2200 : 4600);
 }
-
 function decir(texto){
   subtitulo(texto);
   sonar("radio");
   if (!vozActiva || !("speechSynthesis" in window)) return;
   try{
-    if (window.speechSynthesis.speaking || window.speechSynthesis.pending){
-      window.speechSynthesis.cancel();
-    }
-    // el retraso evita que el cancel() se coma el mensaje siguiente
+    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) window.speechSynthesis.cancel();
     setTimeout(function(){
       try{
         var u = new SpeechSynthesisUtterance(texto);
@@ -351,15 +341,12 @@ function decir(texto){
     }, 90);
   }catch(e){}
 }
-
 $("voz").addEventListener("click", function(){
   vozActiva = !vozActiva;
   this.textContent = vozActiva ? "VOZ ON" : "VOZ OFF";
   this.classList.toggle("off", !vozActiva);
   this.setAttribute("aria-pressed", String(vozActiva));
-  if (!vozActiva && "speechSynthesis" in window){
-    try { window.speechSynthesis.cancel(); } catch(e){}
-  }
+  if (!vozActiva && "speechSynthesis" in window){ try { window.speechSynthesis.cancel(); } catch(e){} }
 });
 
 /* ============================================================
@@ -370,11 +357,7 @@ window.addEventListener("keydown", function(e){
   if (e.key.indexOf("Arrow") === 0 || e.key === " ") e.preventDefault();
 });
 window.addEventListener("keyup", function(e){ teclas[e.key.toLowerCase()] = false; });
-
-function tocar(e){
-  var p = aJuego(e.clientX, e.clientY);
-  dedo.x = p.x; dedo.y = p.y; dedo.on = true;
-}
+function tocar(e){ var p = aJuego(e.clientX, e.clientY); dedo.x = p.x; dedo.y = p.y; dedo.on = true; }
 cv.addEventListener("pointerdown", function(e){ e.preventDefault(); tocar(e); });
 cv.addEventListener("pointermove", function(e){ if (e.buttons || e.pointerType === "touch") tocar(e); });
 cv.addEventListener("pointerup",     function(){ dedo.on = false; });
@@ -384,80 +367,111 @@ cv.addEventListener("pointercancel", function(){ dedo.on = false; });
    HUD
    ============================================================ */
 function pintarHUD(){
-  $("hPuntos").textContent = String(puntos).padStart(6, "0");
+  $("hPuntos").textContent = String(Math.floor(puntos)).padStart(6, "0");
   $("hVidas").textContent  = vidas > 0 ? "◆ ".repeat(vidas).trim() : "—";
   $("hNivel").textContent  = nivel + " / " + MAX_NIVEL;
   $("mision").textContent  = "MISIÓN " + String(nivel).padStart(2,"0") + " · " + (MISIONES[nivel-1] || "");
 }
-
+function pintarAvance(){
+  var f = 0;
+  if (g && g.cfg) f = 1 - (g.tandasRestantes / g.cfg.tandas);
+  $("hAvance").style.width = Math.max(0, Math.min(1, f)) * 100 + "%";
+}
+function pintarMejoras(){
+  var partes = [];
+  if (mejoras.arma)     partes.push("✦ Cañón <b>" + mejoras.arma + "</b>");
+  if (mejoras.cadencia) partes.push("⚡ Cadencia <b>" + mejoras.cadencia + "</b>");
+  if (mejoras.dron)     partes.push("◈ Drones <b>" + mejoras.dron + "</b>");
+  var el = $("hMejoras");
+  if (partes.length){ el.innerHTML = partes.join(" · "); el.classList.remove("vacio"); }
+  else { el.textContent = "Sin mejoras · destruye enemigos para conseguirlas"; el.classList.add("vacio"); }
+}
 function verBarraJefe(ver, nombre, frac){
-  var b = $("bossBar");
-  b.classList.toggle("on", !!ver);
+  $("bossBar").classList.toggle("on", !!ver);
   if (nombre) $("bossNom").textContent = nombre;
   if (typeof frac === "number") $("bossFill").style.width = Math.max(0, frac * 100) + "%";
 }
 
 /* ============================================================
-   CREACIÓN DE ENTIDADES
+   ENTIDADES
    ============================================================ */
 function estrellas(){
   var a = [], i;
-  for (i=0;i<90;i++) a.push({
-    x: Math.random()*W, y: Math.random()*H,
-    s: Math.random()*2+1, v: Math.random()*1.5+.5
-  });
+  for (i=0;i<90;i++) a.push({x:Math.random()*W, y:Math.random()*H, s:Math.random()*2+1, v:Math.random()*1.5+.5});
   return a;
 }
-
-function crearEnemigo(cfg, lado){
-  var tipo = "caza";
-  var r = Math.random();
-  if (cfg.asteroides && r < .22) tipo = "roca";
-  else if (cfg.divisores && r < .42) tipo = "divisor";
+function crearEnemigo(cfg, aj, lado){
+  var tipo = "caza", r = Math.random();
+  if (cfg.asteroides && r < .20) tipo = "roca";
+  else if (cfg.divisores && r < .40) tipo = "divisor";
 
   var x;
   if (cfg.frenteDoble && lado !== undefined) x = lado ? 20 + Math.random()*150 : 220 + Math.random()*150;
   else x = 25 + Math.random()*320;
 
   return {
-    tipo: tipo, x: x, y: -30 - Math.random()*90,
+    tipo:tipo, x:x, y:-30 - Math.random()*90,
     w: tipo === "roca" ? 32 : 28,
     h: tipo === "roca" ? 32 : 28,
-    hp: tipo === "roca" ? cfg.vidaEnemigo + 2 : cfg.vidaEnemigo,
-    ph: Math.random()*6,
-    lado: lado ? 1 : -1,
-    sh: cfg.cadenciaEnemiga + Math.random()*90,
-    pequeno: false
+    hp: tipo === "roca" ? aj.hp + 2 : aj.hp,
+    vel: tipo === "roca" ? aj.vel + .5 : aj.vel,
+    cad: aj.cad, bala: aj.bala,
+    ph: Math.random()*6, lado: lado ? 1 : -1,
+    sh: aj.cad + Math.random()*90, pequeno:false
   };
 }
-
-function crearCria(cfg, padre, dir){
+function crearCria(aj, padre, dir){
   return {
-    tipo:"caza", x: padre.x + dir*14, y: padre.y,
-    w:18, h:18, hp:1, ph:Math.random()*6, lado:dir,
-    sh: cfg.cadenciaEnemiga, pequeno:true
+    tipo:"caza", x:padre.x + dir*14, y:padre.y, w:18, h:18, hp:1,
+    vel:aj.vel + .3, cad:aj.cad, bala:aj.bala,
+    ph:Math.random()*6, lado:dir, sh:aj.cad, pequeno:true
   };
 }
-
 function crearJefe(cfg){
   sonar("boss");
-  var vida = cfg.jefeVida;
   g.jefe = {
     x:115, y:-100, w:160, h:82,
-    hp: vida, max: vida, dir:1, sh:55, patron:0, ciclo:0,
+    hp:cfg.jefeVida, max:cfg.jefeVida, dir:1, sh:55, ciclo:0,
     fase: cfg.nivel === 4 ? 1 : cfg.nivel === 8 ? 2 : 3
   };
   verBarraJefe(true, cfg.nivel === 12 ? "VARKON PRIME · FORMA FINAL" : "VARKON PRIME", 1);
-  decir(cfg.nivel === 12
-    ? "Comandante Caleb, es la forma final de Varkon Prime. Todo depende de usted."
-    : "Alerta, Comandante Caleb. Varkon Prime se aproxima.");
+  subtitulo(cfg.nivel === 12 ? "Varkon Prime revela su forma final." : "Varkon Prime se aproxima.");
 }
-
 function chispas(x, y, color, cantidad){
   var i, n = cantidad || 14;
-  for (i=0;i<n;i++) g.fx.push({
-    x:x, y:y, vx:(Math.random()-.5)*7, vy:(Math.random()-.5)*7, a:1, col:color
+  for (i=0;i<n;i++) g.fx.push({x:x, y:y, vx:(Math.random()-.5)*7, vy:(Math.random()-.5)*7, a:1, col:color});
+}
+function soltarPremio(x, y){
+  var libres = PREMIOS.filter(function(p){
+    return p.tipo === "escudo" ? vidas < 5 : mejoras[p.tipo] < TOPE[p.tipo];
   });
+  if (!libres.length) return;
+  var p = libres[Math.floor(Math.random() * libres.length)];
+  g.pw.push({x:x-10, y:y-10, w:20, h:20, vy:1.1, t:0, def:p});
+}
+function recoger(pw){
+  sonar("premio");
+  if (pw.def.tipo === "escudo"){ vidas = Math.min(5, vidas + 1); pintarHUD(); }
+  else { mejoras[pw.def.tipo] = Math.min(TOPE[pw.def.tipo], mejoras[pw.def.tipo] + 1); pintarMejoras(); }
+  subtitulo(pw.def.letra + "  " + pw.def.texto, true);
+}
+
+/* Disparo del jugador: crece con la mejora de cañón */
+function disparar(p){
+  var n = mejoras.arma, b = [];
+  b.push({x:p.x+5,  y:p.y-8, w:5, h:16, vx:0});
+  b.push({x:p.x+20, y:p.y-8, w:5, h:16, vx:0});
+  if (n >= 1) b.push({x:p.x+12.5, y:p.y-14, w:5, h:16, vx:0});
+  if (n >= 2){ b.push({x:p.x+2,  y:p.y-2, w:5, h:14, vx:-1.4}); b.push({x:p.x+23, y:p.y-2, w:5, h:14, vx:1.4}); }
+  if (n >= 3){ b.push({x:p.x-1,  y:p.y+2, w:5, h:14, vx:-2.7}); b.push({x:p.x+26, y:p.y+2, w:5, h:14, vx:2.7}); }
+  if (n >= 4){ b.push({x:p.x+8,  y:p.y-18, w:5, h:18, vx:-.55}); b.push({x:p.x+17, y:p.y-18, w:5, h:18, vx:.55}); }
+  if (n >= 5)  b.push({x:p.x+12,  y:p.y-24, w:7, h:22, vx:0});
+  var d;
+  for (d=0; d<mejoras.dron; d++){
+    var ox = d === 0 ? -36 : 36;
+    b.push({x:p.x+13+ox, y:p.y+4, w:5, h:14, vx:0});
+  }
+  return b;
 }
 
 /* ============================================================
@@ -467,18 +481,18 @@ function iniciarNivel(n){
   var cfg = configNivel(n);
   nivel = n;
   g = {
-    cfg: cfg,
-    p: {x:180, y:555, w:30, h:42, c:0, inv:60},
-    bs: [], es: [], eb: [], fx: [],
-    stars: (g && g.stars) ? g.stars : estrellas(),
-    t: 0, spawn: 45,
-    porGenerar: cfg.enemigosTotal,
-    jefePendiente: cfg.jefe,
-    jefe: null,
-    ladoAlterno: false
+    cfg:cfg,
+    p:{x:180, y:555, w:30, h:42, c:0, inv:60},
+    bs:[], es:[], eb:[], fx:[], pw:[],
+    stars:(g && g.stars) ? g.stars : estrellas(),
+    t:0, spawn:45,
+    paraPremio: 150 + Math.floor(Math.random() * 90),
+    tandasRestantes:cfg.tandas,
+    jefePendiente:cfg.jefe,
+    jefe:null
   };
   verBarraJefe(false);
-  pintarHUD();
+  pintarHUD(); pintarAvance(); pintarMejoras();
   estado = "jugando";
   $("overlay").classList.add("hide");
   ultimo = performance.now();
@@ -487,28 +501,21 @@ function iniciarNivel(n){
 }
 
 function nivelSuperado(){
-  estado = "superado";
   g.jefe = null;
   verBarraJefe(false);
   guardarRecord();
   cancelAnimationFrame(rafId);
-
+  decir(CIERRE[nivel-1]);                 // una frase al Comandante por misión
   if (nivel >= MAX_NIVEL){
     estado = "ganado";
     sonar("win");
-    decir("¡Victoria, Comandante Caleb! El Dominio es libre.");
-    pantalla("SECTOR LIBERADO",
-      "Comandante Caleb, ha derrotado a Varkon Prime con " + puntos + " puntos.",
-      "VOLVER A EMPEZAR");
+    pantalla("SECTOR LIBERADO", "Varkon Prime ha caído. Puntuación final: " + Math.floor(puntos) + ".", "VOLVER A EMPEZAR");
   } else {
+    estado = "superado";
     sonar("nivel");
-    decir("Nivel superado, Comandante Caleb. Prepare la Invictus para la misión " + (nivel+1) + ".");
-    pantalla("NIVEL " + nivel + " SUPERADO",
-      "Siguiente destino: " + MISIONES[nivel] + ".",
-      "CONTINUAR");
+    pantalla("NIVEL " + nivel + " SUPERADO", "Siguiente destino: " + MISIONES[nivel] + ".", "CONTINUAR");
   }
 }
-
 function derrota(){
   estado = "perdido";
   g.jefe = null;
@@ -517,9 +524,8 @@ function derrota(){
   cancelAnimationFrame(rafId);
   sonar("lose");
   decir("Comandante Caleb, debemos regresar a la base.");
-  pantalla("MISIÓN FALLIDA", "La Invictus volverá a luchar.", "REINTENTAR NIVEL " + nivel);
+  pantalla("MISIÓN FALLIDA", "La Invictus volverá a luchar. Conservas tus mejoras.", "REINTENTAR NIVEL " + nivel);
 }
-
 function pantalla(titulo, texto, boton){
   $("ovTitulo").textContent = titulo;
   $("ovTexto").textContent  = texto;
@@ -533,18 +539,19 @@ $("ovBoton").addEventListener("click", function(){
   sonar("start");
   if (estado === "menu" || estado === "ganado"){
     puntos = 0; vidas = 3;
+    mejoras = {arma:0, cadencia:0, dron:0};
     decir("Comandante Caleb, la misión ha comenzado. La nave Invictus está lista.");
     iniciarNivel(1);
   } else if (estado === "superado"){
     iniciarNivel(nivel + 1);
-  } else {                       // perdido
-    vidas = 3;
+  } else {
+    vidas = 3;                              // las mejoras se conservan
     iniciarNivel(nivel);
   }
 });
 
 /* ============================================================
-   BUCLE PRINCIPAL
+   BUCLE
    ============================================================ */
 function choca(a, b){
   return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
@@ -556,9 +563,11 @@ function bucle(ahora){
   ultimo = ahora;
   g.t += dt;
 
-  var cfg = g.cfg, p = g.p, i, e, b;
+  var cfg = g.cfg, p = g.p, i, k, e, b;
+  var presion = 1 - (g.tandasRestantes / cfg.tandas);
+  var aj = ajustePresion(cfg, presion);
 
-  /* --- nave del jugador --- */
+  /* --- nave --- */
   var dx = ((teclas.d || teclas.arrowright) ? 1 : 0) - ((teclas.a || teclas.arrowleft) ? 1 : 0);
   var dy = ((teclas.s || teclas.arrowdown)  ? 1 : 0) - ((teclas.w || teclas.arrowup)   ? 1 : 0);
   p.x += dx * 5.4 * dt;
@@ -569,30 +578,33 @@ function bucle(ahora){
   }
   p.x = Math.max(8, Math.min(W - 38, p.x));
   p.y = Math.max(70, Math.min(H - 52, p.y));
-  p.c   -= dt;
-  p.inv  = Math.max(0, p.inv - dt);
+  p.c  -= dt;
+  p.inv = Math.max(0, p.inv - dt);
 
   if (p.c <= 0){
-    g.bs.push({x:p.x+5, y:p.y-8, w:5, h:16}, {x:p.x+20, y:p.y-8, w:5, h:16});
-    if (cfg.tripleDisparo) g.bs.push({x:p.x+12.5, y:p.y-14, w:5, h:16});
-    p.c = cfg.tripleDisparo ? 8 : 9;
+    g.bs = g.bs.concat(disparar(p));
+    p.c = Math.max(3.5, 9 - mejoras.cadencia * 1.1);
     sonar("shot");
   }
 
-  /* --- aparición de enemigos --- */
+  /* --- oleadas --- */
   g.spawn -= dt;
-  if (!g.jefe && g.porGenerar > 0 && g.spawn <= 0){
-    var tanda = Math.min(cfg.porTanda, g.porGenerar);
-    for (i=0;i<tanda;i++){
-      var lado = cfg.frenteDoble ? (i % 2 === 0) : undefined;
-      g.es.push(crearEnemigo(cfg, lado));
+  if (!g.jefe && g.tandasRestantes > 0 && g.spawn <= 0){
+    if (g.es.length >= cfg.maxEnPantalla){
+      g.spawn = 25;                          // el cielo está lleno, espera
+    } else {
+      var cuantos = Math.min(aj.tanda, cfg.maxEnPantalla - g.es.length);
+      for (i=0;i<cuantos;i++){
+        var lado = cfg.frenteDoble ? (i % 2 === 0) : undefined;
+        g.es.push(crearEnemigo(cfg, aj, lado));
+      }
+      g.tandasRestantes--;
+      g.spawn = cfg.spawnCada;
+      pintarAvance();
     }
-    g.porGenerar -= tanda;
-    g.spawn = cfg.spawnCada;
   }
 
-  /* --- fin de nivel / entrada del jefe --- */
-  if (!g.jefe && g.porGenerar <= 0 && g.es.length === 0){
+  if (!g.jefe && g.tandasRestantes <= 0 && g.es.length === 0){
     if (g.jefePendiente){ g.jefePendiente = false; crearJefe(cfg); }
     else { nivelSuperado(); return; }
   }
@@ -603,24 +615,24 @@ function bucle(ahora){
     s.y += s.v * dt;
     if (s.y > H){ s.y = 0; s.x = Math.random()*W; }
   }
-  for (i=0;i<g.bs.length;i++) g.bs[i].y -= 10 * dt;
+  for (i=0;i<g.bs.length;i++){ g.bs[i].y -= 10 * dt; g.bs[i].x += (g.bs[i].vx || 0) * dt; }
   for (i=0;i<g.eb.length;i++){ g.eb[i].x += g.eb[i].vx * dt; g.eb[i].y += g.eb[i].vy * dt; }
+  for (i=0;i<g.pw.length;i++){ g.pw[i].y += g.pw[i].vy * dt; g.pw[i].t += dt; }
 
   for (i=0;i<g.es.length;i++){
     e = g.es[i];
     if (e.tipo === "roca"){
-      e.y += (cfg.velEnemigo + .5) * dt;
+      e.y  += e.vel * dt;
       e.ph += .04 * dt;
     } else {
-      e.y += cfg.velEnemigo * dt;
-      var vaiven = cfg.zigzag ? 1.6 : .65;
-      e.x += Math.sin(g.t * .025 + e.ph) * vaiven * e.lado;
+      e.y += e.vel * dt;
+      e.x += Math.sin(g.t * .025 + e.ph) * (cfg.zigzag ? 1.6 : .65) * e.lado;
       e.x = Math.max(2, Math.min(W - e.w - 2, e.x));
       if (cfg.disparan){
         e.sh -= dt;
         if (e.sh < 0){
-          g.eb.push({x:e.x + e.w/2 - 2, y:e.y + e.h, w:5, h:11, vx:0, vy:cfg.velBalaEnemiga});
-          e.sh = cfg.cadenciaEnemiga + Math.random()*90;
+          g.eb.push({x:e.x + e.w/2 - 2, y:e.y + e.h, w:5, h:11, vx:0, vy:e.bala});
+          e.sh = e.cad + Math.random()*90;
         }
       }
     }
@@ -628,13 +640,12 @@ function bucle(ahora){
 
   /* --- jefe --- */
   if (g.jefe){
-    var j = g.jefe;
+    var j = g.jefe, a;
     j.y  = Math.min(75, j.y + .8 * dt);
     j.x += j.dir * (.85 + j.fase * .25) * dt;
     if (j.x < 8 || j.x > W - j.w - 8) j.dir *= -1;
     j.sh -= dt;
     if (j.sh < 0){
-      var a;
       if (j.fase === 1){
         for (a=-2;a<=2;a++) g.eb.push({x:j.x+78, y:j.y+65, w:7, h:13, vx:a*.55, vy:2.8});
         j.sh = 58;
@@ -650,20 +661,19 @@ function bucle(ahora){
       } else {
         j.ciclo++;
         for (a=-4;a<=4;a++) g.eb.push({x:j.x+78, y:j.y+65, w:7, h:13, vx:a*.48, vy:3.3});
-        if (j.ciclo % 4 === 0 && g.es.length < 5){
-          g.es.push(crearCria(cfg, {x:j.x+40, y:j.y+70}, -1));
-          g.es.push(crearCria(cfg, {x:j.x+110, y:j.y+70}, 1));
+        if (j.ciclo % 4 === 0 && g.es.length < 6){
+          g.es.push(crearCria(aj, {x:j.x+40, y:j.y+70}, -1));
+          g.es.push(crearCria(aj, {x:j.x+110, y:j.y+70}, 1));
         }
         j.sh = 40;
       }
     }
   }
 
-  /* --- balas del jugador contra enemigos --- */
+  /* --- balas del jugador --- */
   for (i=0;i<g.bs.length;i++){
     b = g.bs[i];
     if (b.dead) continue;
-    var k;
     for (k=0;k<g.es.length;k++){
       e = g.es[k];
       if (e.dead) continue;
@@ -675,8 +685,13 @@ function bucle(ahora){
           puntos += e.tipo === "roca" ? 60 : e.pequeno ? 40 : 100;
           chispas(e.x + e.w/2, e.y + e.h/2, e.tipo === "roca" ? "#b9a487" : "#ff4f8c");
           sonar("boom");
-          if (e.tipo === "divisor" && !e.pequeno){
-            g.es.push(crearCria(cfg, e, -1), crearCria(cfg, e, 1));
+          if (e.tipo === "divisor" && !e.pequeno && g.es.length < cfg.maxEnPantalla + 2){
+            g.es.push(crearCria(aj, e, -1), crearCria(aj, e, 1));
+          }
+          // una mejora cada tantas bajas: ritmo parejo, no suerte
+          if (--g.paraPremio <= 0){
+            soltarPremio(e.x + e.w/2, e.y + e.h/2);
+            g.paraPremio = 150 + Math.floor(Math.random() * 90);
           }
         }
         break;
@@ -697,7 +712,13 @@ function bucle(ahora){
     }
   }
 
-  /* --- daño al jugador --- */
+  /* --- recoger mejoras --- */
+  for (i=0;i<g.pw.length;i++){
+    var w = g.pw[i];
+    if (!w.dead && choca(w, p)){ w.dead = true; recoger(w); }
+  }
+
+  /* --- daño --- */
   function danar(){
     if (p.inv > 0) return;
     p.inv = 110;
@@ -705,8 +726,8 @@ function bucle(ahora){
     pintarHUD();
     chispas(p.x + 15, p.y + 20, "#5df5ff", 20);
     sonar("hurt");
-    if (vidas === 1) decir("Comandante Caleb, cuidado. Los escudos están al mínimo.");
-    if (vidas <= 0){ derrota(); }
+    if (vidas === 1) subtitulo("Escudos al mínimo.");
+    if (vidas <= 0) derrota();
   }
   for (i=0;i<g.eb.length;i++){
     b = g.eb[i];
@@ -718,37 +739,35 @@ function bucle(ahora){
   }
 
   /* --- limpieza --- */
-  g.bs = g.bs.filter(function(o){ return !o.dead && o.y > -30; });
+  g.bs = g.bs.filter(function(o){ return !o.dead && o.y > -30 && o.x > -20 && o.x < W + 20; });
   g.es = g.es.filter(function(o){ return !o.dead && o.y < H + 40; });
   g.eb = g.eb.filter(function(o){ return !o.dead && o.y < H + 40 && o.x > -30 && o.x < W + 30; });
+  g.pw = g.pw.filter(function(o){ return !o.dead && o.y < H + 30; });
   for (i=0;i<g.fx.length;i++){ var q = g.fx[i]; q.x += q.vx; q.y += q.vy; q.a -= .04; }
   g.fx = g.fx.filter(function(q){ return q.a > 0; });
 
   pintarHUD();
-  dibujar();
+  dibujar(presion);
   rafId = requestAnimationFrame(bucle);
 }
 
 /* ============================================================
    DIBUJO
    ============================================================ */
-function dibujar(){
-  var caja = cv.getBoundingClientRect();
-  var i, e;
-
+function dibujar(presion){
+  var caja = cv.getBoundingClientRect(), i, e;
   ctx.clearRect(0, 0, caja.width, caja.height);
   ctx.save();
   ctx.translate((caja.width - W*escala)/2, (caja.height - H*escala)/2);
   ctx.scale(escala, escala);
 
-  // fondo
+  // el fondo se enrojece conforme sube la presión del nivel
   var bg = ctx.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, "#08072d");
+  bg.addColorStop(0, presion > .6 ? "#1d0a2e" : "#08072d");
   bg.addColorStop(1, "#02151f");
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  // estrellas
   ctx.fillStyle = "#fff";
   for (i=0;i<g.stars.length;i++){
     var s = g.stars[i];
@@ -757,16 +776,13 @@ function dibujar(){
   }
   ctx.globalAlpha = 1;
 
-  // balas del jugador
   ctx.shadowBlur = 12; ctx.shadowColor = "#59efff"; ctx.fillStyle = "#c8ffff";
   for (i=0;i<g.bs.length;i++) ctx.fillRect(g.bs[i].x, g.bs[i].y, g.bs[i].w, g.bs[i].h);
   ctx.shadowBlur = 0;
 
-  // balas enemigas
   ctx.fillStyle = "#ff4778";
   for (i=0;i<g.eb.length;i++) ctx.fillRect(g.eb[i].x, g.eb[i].y, g.eb[i].w, g.eb[i].h);
 
-  // enemigos
   for (i=0;i<g.es.length;i++){
     e = g.es[i];
     if (e.tipo === "roca"){
@@ -778,8 +794,7 @@ function dibujar(){
       ctx.moveTo(-15,-6); ctx.lineTo(-6,-15); ctx.lineTo(9,-13);
       ctx.lineTo(16,0);   ctx.lineTo(8,14);   ctx.lineTo(-8,13);
       ctx.closePath(); ctx.fill();
-      ctx.fillStyle = "#6b5b47";
-      ctx.fillRect(-5,-4,7,6);
+      ctx.fillStyle = "#6b5b47"; ctx.fillRect(-5,-4,7,6);
       ctx.restore();
     } else {
       ctx.fillStyle = e.tipo === "divisor" ? "#b45cff" : "#ef3e82";
@@ -792,7 +807,22 @@ function dibujar(){
     }
   }
 
-  // jefe
+  // mejoras cayendo
+  for (i=0;i<g.pw.length;i++){
+    var w = g.pw[i];
+    ctx.save();
+    ctx.translate(w.x + 10, w.y + 10);
+    ctx.globalAlpha = .55 + Math.sin(w.t * .15) * .35;
+    ctx.strokeStyle = w.def.col; ctx.lineWidth = 2;
+    ctx.strokeRect(-10, -10, 20, 20);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = w.def.col;
+    ctx.font = "bold 13px Arial";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(w.def.letra, 0, 1);
+    ctx.restore();
+  }
+
   if (g.jefe){
     var j = g.jefe;
     ctx.fillStyle = j.fase === 3 ? "#ff2d6f" : "#e83e8c";
@@ -800,8 +830,7 @@ function dibujar(){
     ctx.moveTo(j.x, j.y+55); ctx.lineTo(j.x+80, j.y); ctx.lineTo(j.x+160, j.y+55);
     ctx.lineTo(j.x+120, j.y+82); ctx.lineTo(j.x+40, j.y+82);
     ctx.closePath(); ctx.fill();
-    ctx.fillStyle = "#ffe86b";
-    ctx.fillRect(j.x+68, j.y+38, 24, 14);
+    ctx.fillStyle = "#ffe86b"; ctx.fillRect(j.x+68, j.y+38, 24, 14);
     if (j.fase >= 2){
       ctx.fillStyle = "#5df5ff";
       ctx.fillRect(j.x+26, j.y+52, 12, 8);
@@ -809,8 +838,19 @@ function dibujar(){
     }
   }
 
-  // la Invictus (parpadea mientras es invulnerable)
-  var p = g.p;
+  var p = g.p, d;
+  // drones de escolta
+  ctx.fillStyle = "#c08bff";
+  for (d=0; d<mejoras.dron; d++){
+    var ox = d === 0 ? -36 : 36;
+    ctx.beginPath();
+    ctx.moveTo(p.x+15+ox, p.y+2);
+    ctx.lineTo(p.x+22+ox, p.y+18);
+    ctx.lineTo(p.x+8+ox,  p.y+18);
+    ctx.closePath(); ctx.fill();
+  }
+
+  // la Invictus
   if (p.inv <= 0 || Math.floor(p.inv) % 10 < 5){
     ctx.save();
     ctx.translate(p.x + 15, p.y + 21);
@@ -821,10 +861,10 @@ function dibujar(){
     ctx.closePath(); ctx.fill();
     ctx.fillStyle = "#fff28a"; ctx.fillRect(-3,18,6,14);
     ctx.fillStyle = "#172a6f"; ctx.fillRect(-4,-6,8,15);
+    if (mejoras.arma >= 3){ ctx.fillStyle = "#ffc861"; ctx.fillRect(-13,6,4,9); ctx.fillRect(9,6,4,9); }
     ctx.restore();
   }
 
-  // chispas
   for (i=0;i<g.fx.length;i++){
     var q = g.fx[i];
     ctx.globalAlpha = q.a;
@@ -840,7 +880,7 @@ function dibujar(){
    ============================================================ */
 ajustarLienzo();
 setTimeout(ajustarLienzo, 120);
-pintarHUD();
+pintarHUD(); pintarMejoras();
 $("ovTip").textContent = record > 0 ? "Récord: " + record + " puntos" : "";
 </script>
 </body>
